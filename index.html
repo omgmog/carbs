@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Food Carbs Calculator</title>
+  <link rel="stylesheet" href="bulma.css">
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <label for="food" class="label is-large">Food</label>
+          <div class="field">
+            <div class="control">
+              <div class="select is-fullwidth is-large">
+                <select name="food" id="food"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <label for="portion" class="label is-large">Portion size (g)</label>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input type="number" name="portion" id="portion" class="input is-large">
+            </div>
+            <div class="control">
+              <button class="button is-primary is-large">
+                Calculate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="content">
+        <h1 id="output"></h1>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      const foods = [
+        {
+          'name': 'Potato (uncooked)',
+          'carbs_per_100g': 17.0,
+        },
+        {
+          'name': 'Sweet Potato (uncooked)',
+          'carbs_per_100g': 20.0,
+        },
+        {
+          'name': 'Pasta (uncooked)',
+          'carbs_per_100g': 75.0,
+        },
+        {
+          'name': 'Rice (white, uncooked)',
+          'carbs_per_100g': 80.0,
+        },
+      ];
+
+      carbsPerPortion = (food, portion) => {
+        return (food / 100) * portion + 'g';
+      };
+
+      const field_food = document.querySelector('#food');
+      const field_portion = document.querySelector('#portion');
+      const submitbutton = document.querySelector('.button');
+      const output = document.querySelector('#output');
+
+      const option_element = document.createElement('option');
+
+      foods.forEach((food, i) => {
+        let food_option = option_element.cloneNode();
+        food_option.value = food.carbs_per_100g;
+        food_option.innerText = food.name;
+        field_food.appendChild(food_option);
+      });
+
+      submitbutton.addEventListener('click', (e) => {
+        let totalCarbs = carbsPerPortion(parseInt(field_food.value), parseInt(field_portion.value));
+        output.innerText = totalCarbs;
+      });
+
+
+    }());
+  </script>
+</body>
+</html>
