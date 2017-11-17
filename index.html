@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="bulma.css">
 </head>
 <body>
-  <section class="section">
+  <section class="section is-large">
     <div class="container">
       <div class="columns">
         <div class="column">
@@ -35,9 +35,9 @@
           </div>
         </div>
       </div>
-      <hr>
       <div class="content">
-        <h1 id="output"></h1>
+        <div id="output_name" class="title is-size-2"></div>
+        <div id="output_value" class="subtitle is-size-3"></div>
       </div>
     </div>
   </section>
@@ -68,27 +68,37 @@
       ];
 
       carbsPerPortion = (food, portion) => {
-        return (food / 100) * portion + 'g';
+        return (food.carbs_per_100g / 100) * portion;
       };
 
       const field_food = document.querySelector('#food');
       const field_portion = document.querySelector('#portion');
       const submitbutton = document.querySelector('.button');
-      const output = document.querySelector('#output');
+      const output_name = document.querySelector('#output_name');
+      const output_value = document.querySelector('#output_value');
 
       const option_element = document.createElement('option');
 
       foods.forEach((food, i) => {
         let food_option = option_element.cloneNode();
-        food_option.value = food.carbs_per_100g;
+        food_option.value = i;
         food_option.innerText = food.name;
         field_food.appendChild(food_option);
       });
 
-      submitbutton.addEventListener('click', (e) => {
-        let totalCarbs = carbsPerPortion(parseInt(field_food.value), parseInt(field_portion.value));
-        output.innerText = totalCarbs;
-      });
+      processform = (event) => {
+        if (!field_portion.value) return;
+        let food = foods[field_food.value];
+        let totalCarbs = carbsPerPortion(food, parseInt(field_portion.value)).toFixed(1);
+        output_name.innerText = `${food.name}`;
+        output_value.innerText = `${totalCarbs}g per ${field_portion.value}g`;
+      };
+
+      submitbutton.addEventListener('click', processform, false);
+      field_food.addEventListener('change', processform, false);
+      field_portion.addEventListener('change', processform, false);
+      field_portion.addEventListener('keyup', processform, false);
+      field_portion.addEventListener('keydown', processform, false);
 
 
     }());
