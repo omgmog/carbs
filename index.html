@@ -87,7 +87,10 @@
       });
 
       processform = (event) => {
-        if (!field_portion.value) return;
+        if (!field_portion.value) {
+          output_name.innerText = output_value.innerText = '';
+          return;
+        }
         let food = foods[field_food.value];
         let totalCarbs = carbsPerPortion(food, parseInt(field_portion.value)).toFixed(1);
         output_name.innerText = `${food.name}`;
