@@ -1,0 +1,14 @@
+{
+  "name": "Carbohydrates Calculator",
+  "short_name": "Carb Calculator",
+  "lang": "en-GB",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#333",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192"
+    }
+  ]
+}
