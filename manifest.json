@@ -2,7 +2,7 @@
   "name": "Carbohydrates Calculator",
   "short_name": "Carb Calculator",
   "lang": "en-GB",
-  "start_url": "https://blog.omgmog.net/food-carbs-calculator/",
+  "start_url": "https://carbs.omgmog.net",
   "display": "standalone",
   "theme_color": "#333",
   "icons": [
