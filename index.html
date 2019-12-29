@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Carb Calculator</title>
   <link rel="manifest" href="manifest.json">
 
   <meta name="mobile-web-app-capable" content="yes">
@@ -14,115 +16,91 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="icon" sizes="192x192" href="icon.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="icon.png">
-
-  <title>Food Carbs Calculator</title>
-  <link rel="stylesheet" href="bulma.css">
+  <link rel="icon" sizes="192x192" href="assets/icon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/bulma.min.css">
 </head>
 <body>
-  <section class="section is-large">
+  <section id="app" class="section">
     <div class="container">
       <div class="columns">
-        <div class="column">
-          <label for="food" class="label is-large">Food</label>
-          <div class="field">
-            <div class="control">
-              <div class="select is-fullwidth is-large">
-                <select name="food" id="food"></select>
+          <div class="column">
+            <div class="field">
+              <label for="food" class="label">Food:</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select v-model="pickedfood" v-on:click="calculate" name="food">
+                      <option 
+                          class="food" 
+                          v-for="(food,index) in foods" 
+                          :value="index"
+                          :selected="index == pickedfood"
+                      >
+                          {{food.name}}
+                      </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="column">
-          <label for="portion" class="label is-large">Portion size (g)</label>
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input type="number" name="portion" id="portion" class="input is-large">
-            </div>
-            <div class="control">
-              <button class="button is-primary is-large">
-                Calculate
-              </button>
+          <div class="column">
+            <div class="field">
+              <label for="portion" class="label">Portion size (g):</label>
+              <div class="control is-expanded">
+                <input class="input" type="text" v-model.number="portion" v-on:keyup="calculate" name="portion"/>
+              </div>
             </div>
           </div>
-        </div>
       </div>
-      <div class="content">
-        <div id="output_name" class="title is-size-2"></div>
-        <div id="output_value" class="subtitle is-size-3"></div>
+
+      <div v-show="portion > 0">
+        <div class="label">Carbs per {{portion}}g:</div>
+        <div class="title is-size-1 has-text-info">{{total}}g</div>
       </div>
     </div>
   </section>
-
-  <script>
-    (function() {
-      const foods = [
+  <script src="assets/vue.min.js"></script>
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    foods: [
         {
           'name': 'Potato (uncooked)',
-          'carbs_per_100g': 17.0,
+          'carbs': 17.0,
         },
         {
           'name': 'Sweet Potato (uncooked)',
-          'carbs_per_100g': 20.0,
+          'carbs': 20.0,
         },
         {
           'name': 'Pasta (uncooked)',
-          'carbs_per_100g': 75.0,
+          'carbs': 75.0,
         },
         {
           'name': 'Rice (white, uncooked)',
-          'carbs_per_100g': 80.0,
+          'carbs': 80.0,
         },
         {
           'name': 'Couscous (uncooked)',
-          'carbs_per_100g': 77.43,
-        },
-      ];
-
-      carbsPerPortion = (food, portion) => {
-        return (food.carbs_per_100g / 100) * portion;
-      };
-
-      const field_food = document.querySelector('#food');
-      const field_portion = document.querySelector('#portion');
-      const submitbutton = document.querySelector('.button');
-      const output_name = document.querySelector('#output_name');
-      const output_value = document.querySelector('#output_value');
-
-      const option_element = document.createElement('option');
-
-      foods.forEach((food, i) => {
-        let food_option = option_element.cloneNode();
-        food_option.value = i;
-        food_option.innerText = food.name;
-        field_food.appendChild(food_option);
-      });
-
-      processform = (event) => {
-        if (!field_portion.value) {
-          output_name.innerText = output_value.innerText = '';
-          return;
+          'carbs': 77.43,
         }
-        let food = foods[field_food.value];
-        let totalCarbs = carbsPerPortion(food, parseInt(field_portion.value)).toFixed(1);
-        output_name.innerText = `${food.name}`;
-        output_value.innerText = `${totalCarbs}g per ${field_portion.value}g`;
-      };
+    ],
+    portion: 0,
+    pickedfood: 0,
+    total: 0
+  },
+  methods: {
+      calculate: function () {
+        app.total = ((app.foods[app.pickedfood].carbs / 100) * parseInt(app.portion)).toFixed(1)
+      }
+  }
+});
 
-      submitbutton.addEventListener('click', processform, false);
-      field_food.addEventListener('change', processform, false);
-      field_portion.addEventListener('change', processform, false);
-      field_portion.addEventListener('keyup', processform, false);
-      field_portion.addEventListener('keydown', processform, false);
 
-
-    }());
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js', {scope: './'});
-    }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js', {scope: './'});
+}
   </script>
 </body>
 </html>

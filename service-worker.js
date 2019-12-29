@@ -6,7 +6,10 @@ const RUNTIME = 'runtime';
 const PRECACHE_URLS = [
   'index.html',
   './', // Alias for index.html
-  'bulma.css',
+  'assets/bulma.min.css',
+  'assets/bulma.css.map',
+  'assets/vue.min.js',
+  'icon.png'
 ];
 
 // The install handler takes care of precaching the resources we always need.
