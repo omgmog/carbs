@@ -29,7 +29,11 @@
               <label for="food" class="label">Food:</label>
               <div class="control">
                 <div class="select is-fullwidth">
-                  <select v-model="pickedfood" v-on:click="calculate" name="food">
+                  <select 
+                    v-model="pickedfood" 
+                    v-on:click="calculate" 
+                    v-on:change="focusPortion"
+                    ref="food">
                       <option 
                           class="food" 
                           v-for="(food,index) in foods" 
@@ -47,7 +51,7 @@
             <div class="field">
               <label for="portion" class="label">Portion size (g):</label>
               <div class="control is-expanded">
-                <input class="input" type="text" v-model.number="portion" v-on:keyup="calculate" name="portion"/>
+                <input class="input" type="text" v-model.number="portion" v-on:keyup="calculate" ref="portion"/>
               </div>
             </div>
           </div>
@@ -101,6 +105,9 @@ var app = new Vue({
   methods: {
       calculate: function () {
         app.total = ((app.foods[app.pickedfood].carbs / 100) * parseInt(app.portion)).toFixed(1)
+      },
+      focusPortion: function() {
+        this.$refs.portion.focus();
       }
   }
 });
