@@ -51,7 +51,15 @@
             <div class="field">
               <label for="portion" class="label">Portion size (g):</label>
               <div class="control is-expanded">
-                <input class="input" type="number" inputmode="numeric" v-model.number="portion" v-on:keyup="calculate" ref="portion"/>
+                <input 
+                  class="input" 
+                  type="number" 
+                  inputmode="numeric" 
+                  v-model.number="portion" 
+                  v-on:keyup="calculate" 
+                  v-on:change="calculate" 
+                  ref="portion"
+                />
               </div>
             </div>
           </div>
