@@ -1,4 +1,4 @@
-const foodsData = [
+let foodsData = [
   {
     "name": "Potato (uncooked)",
     "carbs": 17.0

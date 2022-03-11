@@ -78,7 +78,8 @@
   <script src="assets/vue.min.js"></script>
   <script src="foods.js"></script>
   <script>
-    var app = new Vue({
+    foodsData = foodsData || [{"name": "Dust", "carbs": 0.0}]
+    let app = new Vue({
       el: '#app',
       data: {
         foods: foodsData,

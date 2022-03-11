@@ -9,6 +9,7 @@ const PRECACHE_URLS = [
   'assets/bulma.min.css',
   'assets/bulma.css.map',
   'assets/vue.min.js',
+  'foods.js',
   'icon.png'
 ];
 
