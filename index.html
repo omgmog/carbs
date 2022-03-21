@@ -40,7 +40,8 @@
               v-model="pickedfood" 
               v-on:click="calculate" 
               v-on:change="focusPortion"
-              ref="food">
+              ref="food"
+              id="food">
                 <option 
                     class="food" 
                     v-for="(food,index) in foods" 
@@ -65,6 +66,7 @@
             v-on:keyup="calculate" 
             v-on:change="calculate" 
             ref="portion"
+            id="portion"
           />
         </div>
       </div>
